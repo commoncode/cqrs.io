@@ -41,7 +41,7 @@ The following technologies are interesting:
 
 + zerorpc
 + Meteor's DDP (Dynamic Data Protocol)
-++ See also python implemented DDP clients
+  + See also python implemented DDP clients
 + Tornado
 + GEvent
 + CQRS
