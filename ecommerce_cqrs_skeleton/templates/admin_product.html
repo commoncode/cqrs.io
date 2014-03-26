@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CQRS E-commerce Skeleton application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ static_url("bootstrap/css/bootstrap.min.css") }}" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{{ static_url("bootstrap/css/bootstrap-responsive.min.css") }}" type="text/css" media="screen"/>
+  </head>
+  <body>
+    <h1>Admin - Product Management Dashboard</h1>
+    
+    <table class="table table-hover table-bordered">
+        <caption>Product Catalog</caption>
+        <thead>
+            <tr>
+                <th> # </th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr id="p{{ product[0] }}">
+                <td>{{ product[0] }}</td>
+                <td>{{ product[1] }}</td>
+                <td>{{ product[2] }}</td>
+                <td>$ {{ product[3] }}</td>
+            </tr>
+            {% end %}
+        </tbody>
+    </table>
+    <button class="btn btn-primary" type="button" id="btnAddNewProduct">Add New Product</button>
+    <form class="form-horizontal" action="admin/addproduct" name="frmAddNewProduct" id="frmAddNewProduct" style="display:none;">
+      <div class="control-group">
+        <label class="control-label" for="productname">Product Name</label>
+        <div class="controls">
+          <input type="text" id="productname" name="productname" type="text" value="" placeholder="Product Name">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="productdescription">Product Description</label>
+        <div class="controls">
+          <input type="text" id="productdescription" name="productdescription" type="text" value="" placeholder="Product Description">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="productdescription">Product Price</label>
+        <div class="controls">
+          <input type="text" id="productprice" name="productprice" type="text" value="" placeholder="Product Price">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+      
+    </form>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="{{ static_url("bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
+    <script src="{{ static_url("admin_product.js") }}" type="text/javascript"></script>
+  </body>
+</html>
