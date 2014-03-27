@@ -3,19 +3,12 @@ This module is heavily under development.
 ----------------------------------------
 
 
-+ In future we may be providing setup tools to automatically install this module on local system
-
-
 Installation Instruction / Usage
 --------------------------------
 
-+ for now this moudle has no dependencies other than tornado.
-  you can install tornado by running below command
-
-         pip install tornado
-         
-         
 + clone this project.
+
++ run setup.py
 
 + cd to the folder where web.py is located cd cqrs.io/ecommerce_cqrs_skeleton
 
