@@ -23,12 +23,12 @@ def _execute(query):
         cursorobj = connection.cursor()
         try:
                 cursorobj.execute(query)
-                result = cursorobj.fetchall()
+                # result = cursorobj.fetchall()
                 connection.commit()
         except Exception:
                 raise
-        connection.close()
-        return result
+        #connection.close()
+        return cursorobj
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -58,7 +58,9 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        self.render("index.html", messages=AdminProductAddHandler.cache)
+        query = ''' select * from product '''
+        cursorobj = _execute(query)
+        self.render("index.html", products=cursorobj.fetchall())
 
 
 
@@ -98,8 +100,8 @@ class AdminLoginHandler(BaseHandler):
 class AdminProductDashboardHandler(BaseHandler):
     def get(self):
         query = ''' select * from product '''
-        rows = _execute(query)
-        self.render("admin_product.html", products=rows)
+        cursorobj = _execute(query)
+        self.render("admin_dashboard.html", products=cursorobj.fetchall())
 
 
 
@@ -120,8 +122,8 @@ class AdminProductAddHandler(tornado.websocket.WebSocketHandler):
         AdminProductAddHandler.waiters.remove(self)
     
     @classmethod
-    def update_cache(cls, chat):
-        cls.cache.append(chat)
+    def update_cache(cls, product):
+        cls.cache.append(product)
         if len(cls.cache) > cls.cache_size:
             cls.cache = cls.cache[-cls.cache_size:]
     
@@ -135,18 +137,30 @@ class AdminProductAddHandler(tornado.websocket.WebSocketHandler):
             except:
                 logging.error("Error sending message", exc_info=True)
 
-    def on_message(self, message):
-        logging.info("got message %r", message)
+    def on_message(self, product):
+        logging.info("got message %r", product)
         logging.info("inserting in to db")
-        parsed = tornado.escape.json_decode(message)
+        parsed = tornado.escape.json_decode(product)
         
-        query = ''' INSERT INTO product (name, description, price) ''' % (parsed["name"], parsed["description"], parsed["price"])
-        _execute(query)
-        product = {
-            # TODO : get last product inserted.
-            }
+        query = ''' INSERT INTO product (name, description, price) VALUES('%s','%s',%s)''' % (parsed["productname"], parsed["productdescription"], parsed["productprice"])
+        # query = tornado.escape.to_basestring(self.render_string(query))
+        cursorobj = _execute(query)
+        productId = cursorobj.lastrowid
+        query = ''' SELECT * from product where id=%s''' % (productId)
+        cursorobj = _execute(query)
+        row = cursorobj.fetchone()
+        product = {}
+        #for row in cursorobj.fetchall():
+        product["id"] = row[0]
+        product["name"] = row[1]
+        product["description"] = row[2]
+        product["price"] = row[3]
+        
+        tornado.escape.to_basestring(tornado.escape.json_encode(product))
+        '''
         product["html"] = tornado.escape.to_basestring(
-            self.render_string("product.html", product=product))
+            self.render_string("admin_product.html", product=product))
+        '''
 
         AdminProductAddHandler.update_cache(product)
         AdminProductAddHandler.send_updates(product)

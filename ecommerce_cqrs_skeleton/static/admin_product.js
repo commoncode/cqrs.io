@@ -5,7 +5,6 @@ $(document).ready(function() {
     
     
     $("#btnAddNewProduct").click(function() {
-        //console.log("clicked");
         $("#frmAddNewProduct").slideToggle("slow");
     });
 
@@ -55,7 +54,7 @@ var updater = {
         console.log(product);
         var existing = $("#p" + product.id);
         if (existing.length > 0) return;
-        var node = $(product.html);
+        var node = $(['<tr><td>', product.id, '<td>', product.name, '</td>', '<td>', product.description, '</td>', '<td> $ ', product.price, '</td>', '</td></tr>'].join(''));
         node.hide();
         $("#tblProduct tbody").append(node);
         node.slideDown();
