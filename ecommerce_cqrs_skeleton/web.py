@@ -12,23 +12,34 @@ import tornado.web
 import tornado.websocket
 import os.path
 import uuid
-import sqlite3
+from models.db import _execute
+
+
+#import zmq and install zmq's event loop as part of tornado
+import zmq
+from zmq.eventloop import ioloop
+from zmq.eventloop.zmqstream import ZMQStream
+ioloop.install()
 
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
-def _execute(query):
-        dbPath = 'data/ecommerce.db'
-        connection = sqlite3.connect(dbPath)
-        cursorobj = connection.cursor()
-        try:
-                cursorobj.execute(query)
-                # result = cursorobj.fetchall()
-                connection.commit()
-        except Exception:
-                raise
-        #connection.close()
-        return cursorobj
+
+
+socket_connections = []
+
+def setupZmqSubscriber():
+    ctx = zmq.Context()
+    s = ctx.socket(zmq.SUB)
+    s.connect('tcp://127.0.0.1:5000')
+    s.setsockopt(zmq.SUBSCRIBE, "")
+
+    stream = ZMQStream(s)
+    def echo(product):
+    	print "receiving message: %s" % product
+        for socket in socket_connections:
+            socket.write_message(product[0])
+    stream.on_recv(echo)
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -116,10 +127,10 @@ class AdminProductAddHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self):
-        AdminProductAddHandler.waiters.add(self)
+        socket_connections.append(self)
 
     def on_close(self):
-        AdminProductAddHandler.waiters.remove(self)
+        socket_connections.remove(self)
     
     @classmethod
     def update_cache(cls, product):
@@ -138,41 +149,20 @@ class AdminProductAddHandler(tornado.websocket.WebSocketHandler):
                 logging.error("Error sending message", exc_info=True)
 
     def on_message(self, product):
-        logging.info("got message %r", product)
-        logging.info("inserting in to db")
-        parsed = tornado.escape.json_decode(product)
+        logging.info("got product %r", product)
+        logging.info("sending to queue on push socket tcp://127.0.0.1:5557")
         
-        query = ''' INSERT INTO product (name, description, price) VALUES('%s','%s',%s)''' % (parsed["productname"], parsed["productdescription"], parsed["productprice"])
-        # query = tornado.escape.to_basestring(self.render_string(query))
-        cursorobj = _execute(query)
-        productId = cursorobj.lastrowid
-        query = ''' SELECT * from product where id=%s''' % (productId)
-        cursorobj = _execute(query)
-        row = cursorobj.fetchone()
-        product = {}
-        #for row in cursorobj.fetchall():
-        product["id"] = row[0]
-        product["name"] = row[1]
-        product["description"] = row[2]
-        product["price"] = row[3]
-        
-        tornado.escape.to_basestring(tornado.escape.json_encode(product))
-        '''
-        product["html"] = tornado.escape.to_basestring(
-            self.render_string("admin_product.html", product=product))
-        '''
-
-        AdminProductAddHandler.update_cache(product)
-        AdminProductAddHandler.send_updates(product)
-        
-
-
+        context = zmq.Context()
+        zmq_socket = context.socket(zmq.PUSH)
+        zmq_socket.bind("tcp://127.0.0.1:5557")
+        zmq_socket.send_json({'product': tornado.escape.json_decode(product)})
 
 
 def main():
     tornado.options.parse_command_line()
     app = Application()
     app.listen(options.port)
+    setupZmqSubscriber()
     tornado.ioloop.IOLoop.instance().start()
 
 
