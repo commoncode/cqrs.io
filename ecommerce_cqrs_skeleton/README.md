@@ -9,9 +9,11 @@ Installation Instruction / Usage
 + clone this project.
 
 + run
+    
     setup.py
 
 + cd to the folder where web.py is located
+    
     cd cqrs.io/ecommerce_cqrs_skeleton
 
 + run the below command.
