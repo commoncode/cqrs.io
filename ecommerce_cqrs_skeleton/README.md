@@ -10,11 +10,11 @@ Installation Instruction / Usage
 
 + run
     
-    setup.py
+        setup.py
 
 + cd to the folder where web.py is located
     
-    cd cqrs.io/ecommerce_cqrs_skeleton
+        cd cqrs.io/ecommerce_cqrs_skeleton
 
 + run the below command.
 
@@ -24,7 +24,7 @@ Installation Instruction / Usage
   
 + start the publisher in another terminal
     
-    python product_publisher.py
+        python product_publisher.py
   
 + to see admin panel browse to http://localhost:8888/admin
   below is the user credintial:
