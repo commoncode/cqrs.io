@@ -1,0 +1,51 @@
+<head>
+    <title>CQRS - meteorapp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="row-fluid">
+        <div class="span6 well products">
+            {{> productlist}}
+        </div>
+        <div class="span6 well">
+            {{> operationlog}}
+        </div>
+    </div> 
+</body>
+
+<template name="productlist">
+    <h1>Product List</h1>
+    <ul class="unstyled">
+    {{# each products}}
+        {{> product}}
+    {{/each}}
+    </ul>
+</template>
+
+<template name="product">
+    <li>
+        <div><strong>Product Id:</strong> {{_id}}</div>
+        <div><strong>Product Name:</strong> {{name}}</div>
+        <div><strong>Product Description:</strong> {{description}}</div>
+        <div><strong>Product price:</strong> <span class="badge badge-warning">{{price}}</span></div>
+    </li>
+</template>
+
+
+
+<template name="operationlog">
+    <h1>Operations Logs</h1>
+    <ul class="unstyled">
+        {{# each cqrslogs}}
+            {{> cqrslog}}
+        {{/each}}
+    </ul>
+</template>
+
+<template name="cqrslog">
+    <li style="">
+        <div>Operation Name: {{name}}</div>
+        <div>Status: {{status}}</div>
+    </li>
+</template>
