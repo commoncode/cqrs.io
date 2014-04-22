@@ -1,6 +1,23 @@
-Credintials:
-------------
+## Requirements:
+-----------------
 
-Username : commoncode
-Email address: dipak.kumar@clavax.com
-Password: cqrs12345
+Python 2.7
+
+Django
+
+    pip install django
+
+ZeroRPC
+
+    pip install zerorpc
+    
+
+    cd djangoadmin
+    
+    python manage.py runserver
+
+
+
+
+
+**NOTE: You may need to generate username/password to use /admin part of the django**

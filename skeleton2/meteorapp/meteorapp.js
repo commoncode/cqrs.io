@@ -1,4 +1,4 @@
-Products = new Meteor.Collection("products");
+Products = new Meteor.Collection("products", {idGeneration:'MONGO'});
 
 if (Meteor.isClient) {
   Meteor.subscribe("products");
