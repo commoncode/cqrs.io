@@ -4,9 +4,9 @@ This project is in progress, Not intended to use in production:
 
 Install
 -------
-    [meteorapp](https://github.com/commoncode/cqrs.io/tree/master/skeleton2/meteorapp)
+[meteorapp](https://github.com/commoncode/cqrs.io/tree/master/skeleton2/meteorapp)
     
-    [djangoadmin](https://github.com/commoncode/cqrs.io/tree/master/skeleton2/djangoadmin)
+[djangoadmin](https://github.com/commoncode/cqrs.io/tree/master/skeleton2/djangoadmin)
     
 
 
