@@ -14,12 +14,12 @@ Django REST framework
     pip install django-filter  # Filtering support
     
 Django REST Swagger
+
     pip install django-rest-swagger
 
 ZeroRPC
 
     pip install zerorpc
-    
 
     cd djangoadmin
     
