@@ -5,10 +5,13 @@
 
 <body>
     <div class="row-fluid">
-        <div class="span6 well products">
+        <div class="span4 well products">
             {{> productlist}}
         </div>
-        <div class="span6 well">
+        <div class="span4 well cart">
+            {{> cartlist}}
+        </div>
+        <div class="span4 well">
             {{> operationlog}}
         </div>
     </div> 
@@ -29,9 +32,14 @@
         <div><strong>Product Name:</strong> {{name}}</div>
         <div><strong>Product Description:</strong> {{description}}</div>
         <div><strong>Product price:</strong> <span class="badge badge-warning">{{price}}</span></div>
+        <div style="padding-left: 320px;"><a href="#" class="btn-primary btn-small active"><i class="icon-shopping-cart"></i>Add to Cart</a></div>
     </li>
 </template>
 
+
+<template name="cartlist">
+    <h1>Your Shopping Cart</h1>
+</template>
 
 
 <template name="operationlog">
