@@ -11,8 +11,11 @@
         <div class="span4 well cart">
             {{> cartlist}}
         </div>
-        <div class="span4 well">
+        <div class="span3 well">
             {{> operationlog}}
+        </div>
+        <div class="span1">
+            {{> loginButtons align="right"}}
         </div>
     </div> 
 </body>
@@ -32,7 +35,7 @@
         <div><strong>Product Name:</strong> {{name}}</div>
         <div><strong>Product Description:</strong> {{description}}</div>
         <div><strong>Product price:</strong> <span class="badge badge-warning">{{price}}</span></div>
-        <div style="padding-left: 320px;"><a href="#" class="btn-primary btn-small active"><i class="icon-shopping-cart"></i>Add to Cart</a></div>
+        <div style="padding-left: 320px;" ><a href="#" class="btn-primary btn-small active btnAddToCart"><i class="icon-shopping-cart"></i>Add to Cart</a></div>
     </li>
 </template>
 

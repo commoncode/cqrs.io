@@ -5,6 +5,10 @@ Install Meteor:
     
     cd meteorapp
     
+    meteor add accounts-password
+    
+    meteor add accounts-ui
+    
     meteor
     
 ###Thats all!

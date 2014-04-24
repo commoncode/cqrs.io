@@ -19,6 +19,12 @@ if (Meteor.isClient) {
     }
   });
   */
+  
+  Template.product.events({
+      'click .btnAddToCart': function() {
+          console.log(this);
+      }
+  });
 }
 
 if (Meteor.isServer) {
