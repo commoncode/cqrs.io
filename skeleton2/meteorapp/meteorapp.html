@@ -34,8 +34,10 @@
         <div><strong>Product Id:</strong> {{_id._str}}</div>
         <div><strong>Product Name:</strong> {{name}}</div>
         <div><strong>Product Description:</strong> {{description}}</div>
-        <div><strong>Product price:</strong> <span class="badge badge-warning">{{price}}</span></div>
+        <div><strong>Product price:</strong> <span class="badge badge-warning"> $ {{price}}</span></div>
+        {{#if currentUser}}
         <div style="padding-left: 320px;" ><a href="#" class="btn-primary btn-small active btnAddToCart"><i class="icon-shopping-cart"></i>Add to Cart</a></div>
+        {{/if}}
     </li>
 </template>
 
