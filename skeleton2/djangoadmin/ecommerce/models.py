@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib import admin
 from django.core import serializers
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 import zerorpc
 # Create your models here.
@@ -15,6 +17,10 @@ class Product(models.Model):
     
     
 class ProductAdmin(admin.ModelAdmin):
+    
+    list_display = ('name', 'description', 'price')
+    
+    '''
     def save_model(self, request, obj, form, change):
         c = zerorpc.Client()
         c.connect("tcp://127.0.0.1:4242")
@@ -22,3 +28,13 @@ class ProductAdmin(admin.ModelAdmin):
         c.hello(product)
         
         obj.save()
+        
+    '''
+        
+        
+@receiver(post_save, sender=Product)
+def send_product_to_zerorpc(sender, instance, **kwargs):
+    c = zerorpc.Client()
+    c.connect("tcp://127.0.0.1:4242")
+    product = '{"name":"%s", "description":"%s", "price":"%s"}' % (instance.name, instance.description, instance.price)
+    c.hello(product)
