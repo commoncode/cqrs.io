@@ -44,12 +44,20 @@
 
 <template name="cartlist">
     <h1>Your Shopping Cart</h1>
+    <ul>
+        {{# each cproducts}}
+            {{> cproduct}}
+        {{/each}}
+    </ul>
 </template>
 
+<template name="cproduct">
+    <li>{{name}}</li>
+</template>
 
 <template name="operationlog">
     <h1>Operations Logs</h1>
-    <ul class="unstyled">
+    <ul>
         {{# each cqrslogs}}
             {{> cqrslog}}
         {{/each}}
@@ -57,8 +65,9 @@
 </template>
 
 <template name="cqrslog">
-    <li style="">
-        <div>Operation Name: {{name}}</div>
+    <li>
+        <div>Operation Name: {{description}}</div>
         <div>Status: {{status}}</div>
+        <div>By: {{userid}}</div>
     </li>
 </template>
