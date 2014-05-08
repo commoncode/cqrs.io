@@ -23,6 +23,8 @@ ZeroRPC
 
     cd djangoadmin
     
+    python manage.py syncdb
+    
     python manage.py runserver
 
 
