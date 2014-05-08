@@ -12,7 +12,7 @@
             {{> cartlist}}
         </div>
         <div class="span3 well">
-            {{> operationlog}}
+            {{> oplogqueue}}
         </div>
         <div class="span1">
             {{> loginButtons align="right"}}
@@ -55,9 +55,9 @@
     <li>{{name}}</li>
 </template>
 
-<template name="operationlog">
+<template name="oplogqueue">
     <h1>Operations Logs</h1>
-    <ul>
+    <ul  class="unstyled">
         {{# each cqrslogs}}
             {{> cqrslog}}
         {{/each}}
@@ -66,8 +66,14 @@
 
 <template name="cqrslog">
     <li>
-        <div>Operation Name: {{description}}</div>
-        <div>Status: {{status}}</div>
-        <div>By: {{userid}}</div>
+        <div>{{description}}
+            {{#if statusIsInitiated  'Initiated'}}
+                <span class="label label-important">{{status}}</span>
+            {{/if}}
+            {{#if statusIsCompleted  'Complete'}}
+                <span class="label label-success">{{status}}</span>
+            {{/if}}
+            By {{userid}}
+        </div>
     </li>
 </template>

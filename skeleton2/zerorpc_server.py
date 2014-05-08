@@ -12,9 +12,20 @@ class Products(Document):
     description = StringField()
     price = StringField()
     
+class Cart(Document):
+    name = StringField()
+    owner = StringField()
+    
+class Oplogqueue(Document):
+    description = StringField()
+    productname = StringField()
+    status = StringField()
+    userid = StringField()
+    
 
-class HelloRPC(object):
-    def hello(self, product):
+class EcommerceRPC(object):
+    def save_product(self, product):
+        print "Saving product"
         print product
         product_obj = json.loads(product)
         print product_obj
@@ -23,7 +34,6 @@ class HelloRPC(object):
         product_mongo.save()
         return "Product saved"
         
-        
-s = zerorpc.Server(HelloRPC())
+s = zerorpc.Server(EcommerceRPC())
 s.bind("tcp://0.0.0.0:4242")
 s.run()

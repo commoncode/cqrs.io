@@ -10,20 +10,14 @@ from rest_framework import routers
 from ecommerce import views
 
 
-# ViewSets define the view behavior.
-"""
-class UserViewSet(viewsets.ModelViewSet):
-    model = User
-
-class GroupViewSet(viewsets.ModelViewSet):
-    model = Group
-"""
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'products', views.ProductViewSet)
+router.register(r'cart', views.CartViewSet)
+router.register(r'oplogqueues', views.OplogqueueViewSet)
 
 
 urlpatterns = patterns('',
